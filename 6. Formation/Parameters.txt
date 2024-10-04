@@ -1,0 +1,566 @@
+% Transport parameters for A123 AMP20M1HD-A
+
+DnRef = {1.5E-14, 'm^2/s'};     % Ref. negative electrode diffusion coefficient, DnRef (adjusted)
+DpRef = {2.0E-14, 'm^2/s'};     % Ref. positive electrode diffusion coefficient, DpRef (adjusted)
+cn_max = {33000, 'mol/m^3'};    % Maximum negative particle concentration, cn_max (typical value)
+cp_max = {62000, 'mol/m^3'};    % Maximum positive particle concentration, cp_max (typical value)
+ce0 = {1000, 'mol/m^3'};        % Initial electrolyte concentration, ce0 (as provided)
+tr = {0.3, '1'};                 % Transference number, tr (adjusted for LiFePO₄)
+sigma_nRef = {100, 'S/m'};       % Ref. negative electrode conductivity, sigma_nRef (adjusted)
+sigma_eRef = {1.2, 'S/m'};       % Ref. electrolyte conductivity, sigma_eRef (as provided)
+sigma_pRef = {0.1, 'S/m'};       % Ref. positive electrode conductivity, sigma_pRef (adjusted)
+
+% OCV parameters for A123 AMP20M1HD-A
+
+sn_max = {0.9, '1'};   % Maximum negative stoichiometry, sn_max (typical value for LiFePO₄)
+sn_min = {0.05, '1'};  % Minimum negative stoichiometry, sn_min (lower bound for LiFePO₄)
+sp_max = {0.95, '1'};  % Maximum positive stoichiometry, sp_max (typical value for LiFePO₄)
+sp_min = {0.25, '1'};  % Minimum positive stoichiometry, sp_min (typical value for LiFePO₄)
+
+% Kinetic parameters for A123 AMP20M1HD-A
+knRef = {5.0E-7, '(A/m^2)/(mol/m^3)^1.5'};   % Reference negative electrode reaction rate, knRef
+kpRef = {1.2E-6, '(A/m^2)/(mol/m^3)^1.5'};   % Reference positive electrode reaction rate, kpRef
+
+% Thermal parameters for A123 AMP20M1HD-A
+Cp = {120, 'J/K'};              % Heat capacity, Cp (typical for LiFePO₄)
+T0 = {298, 'K'};                % Initial temperature, T0
+Tref = {298, 'K'};              % Arrhenius reference temperature, Tref
+
+% Activation energies for A123 AMP20M1HD-A
+Ea_kn = {50, 'kJ/mol'};          % Negative reaction rate activation energy, Ea_kn
+Ea_kp = {55, 'kJ/mol'};          % Positive reaction rate activation energy, Ea_kp      
+Ea_Dn = {50, 'kJ/mol'};          % Negative diffusion coefficient activation energy, Ea_Dn
+Ea_Dp = {35, 'kJ/mol'};          % Positive diffusion coefficient activation energy, Ea_Dp        
+Ea_De = {20, 'kJ/mol'};          % Electrolyte diffusion coefficient activation energy, Ea_De
+Ea_sigman = {60, 'kJ/mol'};      % Negative conductivity activation energy, Ea_sigman
+Ea_sigmae = {40, 'kJ/mol'};      % Electrolyte conductivity activation energy, Ea_sigmae
+Ea_sigmap = {60, 'kJ/mol'};      % Positive conductivity activation energy, Ea_sigmap        
+Ea_ksei = {30, 'kJ/mol'};        % SEI reaction rate activation energy, Ea_ksei
+Ea_Dsei = {15, 'kJ/mol'};        % SEI diffusion coefficient activation energy, Ea_Dsei
+Ea_sigmasei = {10, 'kJ/mol'};    % SEI conductivity activation energy, Ea_sigmasei
+Ea_kLi = {40, 'kJ/mol'};         % Lithium plating reaction rate activation energy, Ea_kLi
+
+
+% Domain geometry for A123 AMP20M1HD-A
+
+Ln = {75, 'um'};          % Negative electrode thickness, Ln (typical value)
+Ls = {12, 'um'};         % Separator thickness, Ls (as provided)
+Lp = {75.6, 'um'};       % Positive electrode thickness, Lp (typical value)
+
+eps_n0 = {0.3, '1'};     % Negative electrode initial porosity, eps_n0 (adjusted)
+eps_s = {0.47, '1'};     % Separator porosity, eps_s (as provided)
+eps_p = {0.33, '1'};     % Positive electrode porosity, eps_p (adjusted)
+
+Area_p = {1027, 'cm^2'}; % Positive electrode area, Area_p (as provided)
+
+Rn = {5.5, 'um'};        % Negative particle radius, Rn (adjusted)
+Rp = {5.2, 'um'};        % Positive particle radius, Rp (as provided)
+
+an = {4.0E5, '1/m'};     % Negative surface area density, an (adjusted)
+ap = {4.0E5, '1/m'};     % Positive surface area density, ap (adjusted)
+
+
+
+
+% Example usage:
+% Define parameters for SEI growth and Butler-Volmer equation
+k_SEI = 1e-10;    % SEI growth rate constant [m/s]
+E_SEI = 50000;    % Activation energy [J/mol]
+R = 8.314;        % Universal gas constant [J/mol·K]
+current = 1.0;    % Current [A/m^2]
+
+%I0 = 0.1;         % Exchange current density [A/m^2]
+alpha_a = 0.5;    % Anodic transfer coefficient
+alpha_c = 0.5;    % Cathodic transfer coefficient
+F = 96485;        % Faraday's constant [C/mol]
+eta = 0.1;        % Overpotential [V]
+
+% Call the function
+[dSEI_dt, I] = sei_butler_volmer(k_SEI, E_SEI, R, T, current, I0, alpha_a, alpha_c, F, eta);
+
+% Display the results
+disp(['Rate of SEI growth = ', num2str(dSEI_dt), ' m/s']);
+disp(['Current density I = ', num2str(I), ' A/m^2']);
+
+
+
+
+
+% Ageing parameters for A123 AMP20M1HD-A
+kseiRef = {2E-12, 'm/s'};       % Reference SEI reaction rate, kseiRef
+csei0 = {4541, 'mol/m^3'};      % Initial SEI concentration, csei0
+Usei = {0.2, 'V'};               % SEI reaction OCV, Usei
+DseiRef = {1E-19, 'm^2/s'};      % Reference SEI diffusion coefficient, DseiRef
+Msei = {0.162, 'kg/mol'};        % SEI molar weight, Msei
+pho_sei = {1200, 'kg/m^3'};      % SEI density, pho_sei
+sigma_seiRef = {1E-5, 'S/m'};    % Reference SEI conductivity, sigma_seiRef
+Lf0 = {5E-3, 'um'};              % Initial film thickness, Lf0
+kLiRef = {1E-12, 'm/s'};         % Reference Li plating reaction rate, kLiRef
+ULi = {0.2, 'V'};                 % Li plating reaction OCV, ULi
+MLi = {6.94E-3, 'kg/mol'};       % Li molar weight, MLi
+pho_Li = {534, 'kg/m^3'};        % Li density, pho_Li
+
+
+
+
+
+Battery new TSPMe 
+
+
+% Transport parameters adjusted for A123 AMP20M1HD-A
+DnRef = {2.5E-14, 'm^2/s'};     % Ref. -ve electrode diff. coeff., DnRef (adjusted for A123)
+DpRef = {1E-14, 'm^2/s'};       % Ref. +ve electrode diff. coeff., DpRef (adjusted for A123)
+cn_max = {31833, 'mol/m^3'};    % Maximum -ve particle conc., cn_max (based on A123 LiFePO4 chemistry)
+cp_max = {51104, 'mol/m^3'};    % Maximum +ve particle conc., cp_max (adjusted for A123 LiFePO4)
+ce0 = {1000,'mol/m^3'};         % Initial electrolyte conc., ce0 (kept standard)
+tr = {0.38, '1'};               % Transference number, tr (adjusted for typical LiFePO4 chemistry)
+sigma_nRef = {150, 'S/m'};      % Ref. -ve electrode conductivity, sigma_nRef (adjusted for A123)
+sigma_eRef = {1.5, 'S/m'};      % Ref. electrolyte conductivity, sigma_eRef (adjusted for better electrolyte)
+sigma_pRef = {0.2, 'S/m'};      % Ref. +ve electrode conductivity, sigma_pRef (adjusted for A123)
+
+% OCV parameters for A123 AMP20M1HD-A (LiFePO4)
+sn_max = {0.92, '1'};           % Maximum -ve stoichiometry, sn_max (adjusted for A123)
+sn_min = {0.03, '1'};           % Minimum -ve stoichiometry, sn_min (based on typical A123 OCV curve)
+sp_max = {0.95, '1'};           % Maximum +ve stoichiometry, sp_max (based on typical A123 OCV curve)
+sp_min = {0.25, '1'};           % Minimum +ve stoichiometry, sp_min (based on typical A123 OCV curve)
+
+% Kinetic parameters adjusted for A123 AMP20M1HD-A
+knRef = {5.8E-7, '(A/m^2)/(mol/m^3)^1.5'};   % Ref. negative electrode reaction rate, knRef (adjusted for A123)
+kpRef = {2.8E-6, '(A/m^2)/(mol/m^3)^1.5'};   % Ref. positive electrode reaction rate, kpRef (adjusted for A123)
+
+% Thermal parameters for A123 AMP20M1HD-A
+Cp = {120, 'J/K'};              % Heat capacity, Cp (adjusted for A123)
+T0 = {298, 'K'};                % Initial temperature, T0 (kept standard)
+Tref = {298, 'K'};              % Arrhenius ref. temperature, Tref (kept standard)
+
+
+% Activation energies (values are placeholders, refer to the battery datasheet if available)
+Ea_kn = {35, 'kJ/mol'}           % Neg. reaction rate activation energy, Ea_kn (adjusted)
+Ea_kp = {40, 'kJ/mol'}           % Pos. reaction rate activation energy, Ea_kp (adjusted)
+Ea_Dn = {45, 'kJ/mol'}           % Neg. diff. coeff. activation energy, Ea_Dn (adjusted)
+Ea_Dp = {50, 'kJ/mol'}           % Pos. diff. coeff. activation energy, Ea_Dp (adjusted)
+Ea_De = {1.2, 'kJ/mol'}          % Elec. diff. coeff. activation energy, Ea_De (kept same)
+Ea_sigman = {50, 'kJ/mol'}       % Neg. cond. activation energy, Ea_sigman (adjusted)
+Ea_sigmae = {40, 'kJ/mol'}       % Elec. cond. activation energy, Ea_sigmae (adjusted)
+Ea_sigmap = {45, 'kJ/mol'}       % Pos. cond. activation energy, Ea_sigmap (adjusted)
+
+% Domain geometry (values updated for A123 AMP20M1HD-A)
+Ln = {75, 'um'};                 % Negative electrode thickness, Ln (adjusted based on A123 specs)
+Ls = {20, 'um'};                 % Separator thickness, Ls (adjusted based on typical pouch cell design)
+Lp = {65, 'um'};                 % Positive electrode thickness, Lp (adjusted based on A123 specs)
+eps_n = {0.3, '1'};              % Negative electrode porosity, eps_n (adjusted for A123)
+eps_s = {0.47, '1'};             % Separator porosity, eps_s (kept same)
+eps_p = {0.34, '1'};             % Positive electrode porosity, eps_p (adjusted for A123)
+Area_p = {640, 'cm^2'};          % Positive electrode area, Area_p (specific to A123 AMP20M1HD-A)
+
+Rn = {5.0, 'um'};                % -ve Particle radius, Rn (adjusted for A123)
+Rp = {4.5, 'um'};                % +ve Particle radius, Rp (adjusted for A123)
+an = {3.5E5, '1/m'};             % -ve surface area density, an (adjusted based on particle radius)
+ap = {3.4E5, '1/m'};             % +ve surface area density, ap (adjusted based on particle radius)
+
+
+
+
+
+For simulating SEI (Solid Electrolyte Interphase) formation in a battery model in MATLAB, you'll need to consider both the chemical reaction and the governing equations. SEI formation typically occurs at the anode during the initial charging cycles due to side reactions between the electrolyte and lithium ions. This process consumes lithium and forms a passivation layer, which impacts battery performance over time.
+
+Here’s an outline of key elements and equations you can implement in MATLAB to simulate SEI formation:
+
+### 1. **Governing Equation for SEI Growth**
+   The SEI formation can be modeled using a diffusion-limited growth equation, where the growth rate of SEI thickness (\( d_{SEI} \)) is often represented as:
+
+   \[
+   \frac{d d_{SEI}}{dt} = \frac{i_{SEI}}{nF} = \frac{k_{SEI} \cdot \exp\left(-\frac{E_{a, SEI}}{RT}\right)}{\left(1 + d_{SEI}/d_{SEI, max}\right)} \cdot i_{SEI, 0}
+   \]
+
+   Where:
+   - \( d_{SEI} \): SEI thickness
+   - \( i_{SEI} \): SEI current
+   - \( n \): Number of electrons per reaction (typically \( n = 1 \))
+   - \( F \): Faraday constant
+   - \( k_{SEI} \): SEI reaction rate constant
+   - \( E_{a, SEI} \): Activation energy for SEI formation
+   - \( R \): Universal gas constant
+   - \( T \): Temperature in Kelvin
+   - \( d_{SEI, max} \): Maximum SEI thickness
+   - \( i_{SEI, 0} \): Initial SEI current
+
+### 2. **SEI Growth as a Function of Voltage**
+   SEI formation is related to the anode potential \( \phi \), which can be described using an overpotential equation. The SEI current can be linked to the overpotential via the Butler-Volmer equation:
+
+   \[
+   i_{SEI} = i_0 \left[ \exp\left(\frac{\alpha_a F (\phi - \phi_{SEI})}{RT}\right) - \exp\left(-\frac{\alpha_c F (\phi - \phi_{SEI})}{RT}\right) \right]
+   \]
+
+   Where:
+   - \( i_0 \): Exchange current density
+   - \( \alpha_a, \alpha_c \): Anodic and cathodic charge transfer coefficients
+   - \( \phi \): Potential at the anode
+   - \( \phi_{SEI} \): SEI reaction potential
+
+### 3. **Incorporating SEI in MATLAB System Code**
+To implement this in your MATLAB system, you can use the following structure:
+
+- **Initialize Parameters**:
+  ```matlab
+  F = 96485; % Faraday constant (C/mol)
+  R = 8.314; % Gas constant (J/mol/K)
+  T = 298;   % Temperature (K)
+  k_SEI = 1e-7; % Reaction rate constant (adjust as per your data)
+  d_SEI_max = 1e-6; % Max SEI thickness (m)
+  i_SEI_0 = 1e-6; % Initial SEI current (A)
+  E_a_SEI = 40000; % Activation energy (J/mol)
+  ```
+  
+- **SEI Growth Equation**:
+  ```matlab
+  d_SEI = 0; % Initial SEI thickness
+  dt = 1; % Time step (s)
+  t_end = 3600; % Simulation end time (s)
+  
+  for t = 0:dt:t_end
+      i_SEI = i_SEI_0 * exp(-E_a_SEI / (R * T)) / (1 + d_SEI/d_SEI_max);
+      d_SEI = d_SEI + (i_SEI / F) * dt; % Update SEI thickness
+  end
+  ```
+  
+- **Overpotential and Butler-Volmer Equation** (if overpotential is involved):
+  ```matlab
+  i_0 = 1e-6; % Exchange current density (A/m^2)
+  alpha_a = 0.5; % Anodic transfer coefficient
+  alpha_c = 0.5; % Cathodic transfer coefficient
+  phi_SEI = 0.4; % SEI reaction potential (V)
+
+  phi = 0.01; % Example anode potential (V)
+  
+  i_SEI_BV = i_0 * (exp(alpha_a * F * (phi - phi_SEI) / (R * T)) - ...
+                   exp(-alpha_c * F * (phi - phi_SEI) / (R * T)));
+  ```
+
+### 4. **SEI Thickness and Voltage Over Time**
+Finally, you can integrate the SEI thickness over time and link it to your battery voltage model to show how SEI formation affects voltage.
+
+---
+
+These equations allow you to simulate SEI formation in a MATLAB battery model. You can integrate this into your larger battery simulation, adjusting parameters like temperature, SEI growth rates, and initial conditions based on experimental data for the A123 AMP20M1HD-A cell.
+
+Would you like more help integrating this into Simulink or customizing the chemical model further?
+
+
+To set up the wetting and unwetting simulation for the A123 AMP20M1HD-A pouch cell, you will need specific material properties, electrochemical parameters, and thermal properties. Unfortunately, not all of these parameters are readily available in public datasheets, and some may require estimation or experimental data. Below are suggested values based on similar lithium-ion pouch cells, battery research literature, and general lithium-ion battery properties. For accurate results, these values should be validated or adjusted according to experimental data or manufacturer-specific details if available.
+
+### 1. **Electrolyte Properties**
+
+| **Parameter**        | **Symbol** | **Value**                | **Units** | **Notes**                                                                                       |
+|----------------------|------------|--------------------------|-----------|-------------------------------------------------------------------------------------------------|
+| Electrolyte Viscosity | \( \mu \)  | \( 2 \times 10^{-3} \)    | Pa·s      | Typical value for common organic solvents (e.g., LiPF₆ in EC/DEC electrolyte)                   |
+| Electrolyte Density   | \( \rho \) | 1,200                    | kg/m³     | Assumed value for common lithium-ion electrolytes (depends on composition and solvent mixture)  |
+| Surface Tension       | \( \gamma \) | \( 30 \times 10^{-3} \)  | N/m       | Depends on the solvent composition (EC/DEC) and temperature                                     |
+| Contact Angle         | \( \theta \) | 10-15                    | degrees   | Describes wetting behavior on the electrode and separator surfaces                              |
+
+### 2. **Separator and Electrode Material Properties**
+
+| **Parameter**        | **Symbol** | **Value**             | **Units** | **Notes**                                                                          |
+|----------------------|------------|-----------------------|-----------|------------------------------------------------------------------------------------|
+| Porosity             | \( \varepsilon \) | 0.4 - 0.5         | -         | Common value for porous separators (e.g., polyethylene) and electrode materials    |
+| Permeability         | \( k \)    | \( 10^{-16} \) - \( 10^{-15} \) | m²        | Assumed value for typical porous battery separators                               |
+| Tortuosity           | \( \tau \) | 1.5 - 3               | -         | Describes the complex path the electrolyte follows in porous materials             |
+| Thickness (Separator)| \( d \)    | 25 - 30               | µm        | A common separator thickness for lithium-ion pouch cells                           |
+
+### 3. **Initial Electrolyte Distribution**
+
+| **Parameter**         | **Symbol** | **Value**              | **Units** | **Notes**                                                                                          |
+|-----------------------|------------|------------------------|-----------|----------------------------------------------------------------------------------------------------|
+| Wetting Degree         | \( W_0 \)  | 0.5 - 0.8              | -         | Assumed initial wetting degree; experimental or test-specific parameter                             |
+| Initial Electrolyte Mass | \( m_{elec} \) | Estimated via volume and density | kg        | Varies based on the battery's volume and electrolyte saturation                                     |
+| Pressure Gradient      | \( \Delta P \) | 10,000 - 50,000        | Pa        | Pressure applied during the manufacturing process to drive wetting (depends on equipment settings)  |
+
+### 4. **Temperature-Related Parameters**
+
+| **Parameter**         | **Symbol** | **Value**              | **Units** | **Notes**                                                                                           |
+|-----------------------|------------|------------------------|-----------|-----------------------------------------------------------------------------------------------------|
+| Initial Temperature    | \( T_0 \)  | 298                    | K         | Room temperature (25°C); can vary based on specific operational or environmental conditions          |
+| Thermal Conductivity   | \( k_T \)  | 0.1 - 1.0              | W/(m·K)   | Thermal conductivity of the battery materials (electrolyte and electrodes)                           |
+| Heat Capacity          | \( C_p \)  | 1,000 - 2,500          | J/(kg·K)  | Approximate value for battery materials (electrolyte, separator, and electrodes)                      |
+
+### 5. **Electrochemical Parameters**
+
+| **Parameter**         | **Symbol**  | **Value**              | **Units** | **Notes**                                                                                           |
+|-----------------------|-------------|------------------------|-----------|-----------------------------------------------------------------------------------------------------|
+| Initial State of Charge | SOC        | 20% - 40%              | %         | Depending on the cell’s charge during the formation or cycling process                               |
+| Open Circuit Voltage  | \( V_{OC} \)| 3.3 - 3.6              | V         | Typical for a lithium iron phosphate (LiFePO₄) cathode cell like the A123 AMP20M1HD-A                |
+| Internal Resistance   | \( R_{int} \)| 0.8 - 2                | mΩ        | Dependent on state of charge and wetting degree; initial estimate for this type of cell              |
+
+### 6. **Additional Data to Consider:**
+   - **Electrolyte Quantity (by volume):** A typical A123 AMP20M1HD-A pouch cell has dimensions of 227 mm x 161 mm x 7.25 mm, and the total internal volume would allow for calculating the electrolyte quantity based on the porosity and wetting degree.
+   - **Evaporation Rate (during unwetting):** Evaporation is influenced by temperature, ambient conditions, and exposed surface area. In operational settings, the evaporation of electrolyte can be minimal unless the cell experiences high temperatures or exposure to air (e.g., during failure).
+
+These values are reasonable starting points for the wetting and unwetting simulation. You may need to tune the parameters based on specific conditions, testing data, or further literature related to similar lithium-ion cells.
+
+Would you like further help with implementing these parameters in your Simulink model?
+
+
+
+
+
+
+
+To model the wetting, unwetting, and formation process in Simulink for the A123 AMP20M1HD-A battery, we need to break the problem down into different stages and use equations that simulate each physical and electrochemical phenomenon. Below, I'll guide you through setting up a Simulink model for the processes:
+
+### 1. **Wetting Process**
+
+The wetting process involves the electrolyte being absorbed into the porous materials of the separator and electrode. This is driven by capillary forces and pressure gradients. 
+
+**Key Equations for Wetting:**
+- **Darcy's Law** (flow of electrolyte through porous material):
+  \[
+  Q = \frac{k}{\mu} \left( \frac{\Delta P}{L} \right) A
+  \]
+  Where:
+  - \( Q \): Flow rate of electrolyte through the pores
+  - \( k \): Permeability of the porous material
+  - \( \mu \): Viscosity of the electrolyte
+  - \( \Delta P \): Pressure gradient driving the flow
+  - \( L \): Thickness of the separator/electrode
+  - \( A \): Cross-sectional area of the porous medium
+
+  Darcy's law will allow you to compute the rate at which the electrolyte wets the porous structure, based on the applied pressure and material properties.
+
+- **Wetting Degree (W(t))**:
+  The wetting degree \( W(t) \) is the fraction of the porous material that has been wetted by the electrolyte over time. It can be modeled as:
+  \[
+  W(t) = W_0 + \int Q(t) dt
+  \]
+  Where \( W_0 \) is the initial wetting degree and \( Q(t) \) is the flow rate from Darcy's law.
+
+### 2. **Unwetting Process (Evaporation)**
+
+The unwetting process occurs when the electrolyte evaporates or is consumed during the battery operation. This process can be modeled as a mass loss due to evaporation.
+
+**Key Equation for Unwetting (Evaporation Rate):**
+\[
+\dot{m}_{evap} = k_{evap} \cdot A \cdot (P_{sat}(T) - P_{vapor})
+\]
+Where:
+- \( \dot{m}_{evap} \): Mass of electrolyte evaporated per unit time
+- \( k_{evap} \): Evaporation coefficient (material-dependent)
+- \( A \): Surface area exposed to evaporation
+- \( P_{sat}(T) \): Saturation pressure of the electrolyte at temperature \( T \)
+- \( P_{vapor} \): Vapor pressure of the environment (can be set as ambient pressure)
+
+The unwetting process reduces the electrolyte mass and affects the battery's performance.
+
+### 3. **Formation Process**
+
+During the formation process, the solid electrolyte interphase (SEI) forms on the electrode surface. This process is usually controlled by a constant current-constant voltage (CC-CV) protocol.
+
+**Key Equations for SEI Growth:**
+The SEI formation rate depends on the current and voltage. A common model used is the linear or exponential growth of SEI with respect to time, driven by the current during the charging process.
+
+- **SEI Growth Rate**:
+  \[
+  \frac{dSEI}{dt} = k_{SEI} \cdot I(t) \cdot f(T)
+  \]
+  Where:
+  - \( k_{SEI} \): SEI formation rate constant (material-dependent)
+  - \( I(t) \): Current during the formation process
+  - \( f(T) \): Temperature-dependent function (Arrhenius-type relationship)
+
+- **Change in Voltage Due to SEI Formation**:
+  As SEI forms, it increases the internal resistance of the battery, which is reflected in the voltage drop:
+  \[
+  V(t) = V_{OCV} - I(t) \cdot R_{SEI}(t)
+  \]
+  Where:
+  - \( V_{OCV} \): Open circuit voltage
+  - \( R_{SEI}(t) \): Resistance due to the SEI layer, which increases over time
+
+### 4. **Simulink Model Setup**
+
+#### 4.1 **Wetting Model Subsystem**
+- **Input Variables**: Pressure (\( \Delta P \)), Permeability (\( k \)), Viscosity (\( \mu \)), Thickness (\( L \)), Cross-sectional Area (\( A \)).
+- Use blocks to compute \( Q \) (flow rate) from Darcy's law and integrate it to get the wetting degree \( W(t) \).
+- Output: Wetting Degree over time.
+
+#### 4.2 **Unwetting Model Subsystem**
+- **Input Variables**: Evaporation Coefficient (\( k_{evap} \)), Surface Area (\( A \)), Saturation Pressure (\( P_{sat} \)), Vapor Pressure (\( P_{vapor} \)).
+- Use a mathematical block to calculate \( \dot{m}_{evap} \), and integrate it to track the loss of electrolyte mass.
+- Output: Remaining electrolyte mass over time.
+
+#### 4.3 **Formation Model Subsystem**
+- **Input Variables**: Current (\( I(t) \)), SEI Growth Constant (\( k_{SEI} \)), Temperature (\( T \)).
+- Use a dynamic model to simulate the SEI formation and resistance increase, linking it to the battery voltage.
+- Output: SEI layer thickness and voltage profile over time.
+
+### 5. **Combining Wetting, Unwetting, and Formation**
+To combine these processes:
+- **Wetting Subsystem**: Affects how much electrolyte is available for ion transport and electrochemical reactions.
+- **Unwetting Subsystem**: Reduces the electrolyte available over time, increasing resistance and reducing battery performance.
+- **Formation Subsystem**: Models the growth of the SEI and its impact on voltage and internal resistance during the first charge.
+
+### Simulink Setup Steps
+1. **Initialize Subsystems** for wetting, unwetting, and formation, as described above.
+2. **Use Simscape** libraries for battery modeling to incorporate thermal, electrochemical, and fluidic (wetting/unwetting) dynamics.
+3. **Define Inputs**:
+   - Current profile (CC-CV for formation).
+   - Pressure for wetting.
+   - Environmental conditions for evaporation.
+4. **Define Outputs**:
+   - Wetting degree.
+   - Remaining electrolyte.
+   - SEI thickness.
+   - Voltage profile.
+
+### MATLAB Simulink Tools
+- **Simscape Fluids**: For modeling fluid flow (Darcy’s law for wetting/unwetting).
+- **Simscape Electrical**: For modeling the battery’s electrical behavior and SEI formation.
+- **Simscape Battery**: To simulate the battery’s electrochemical dynamics.
+
+Would you like a step-by-step implementation in Simulink or MATLAB code to get started on any specific aspect of this model?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+To simulate the Solid Electrolyte Interphase (SEI) formation process in MATLAB/Simulink, you need to focus on modeling the electrochemical behavior that leads to the growth of the SEI layer. SEI formation typically occurs on the anode side of a lithium-ion battery and is characterized by the reaction of lithium ions with electrolyte solvents, leading to the creation of a passivation layer.
+
+Here is an outline for coding and implementing SEI formation in MATLAB. You can implement this model into a Simulink system that interacts with the overall battery model.
+
+### 1. **Mathematical Model for SEI Formation**
+The growth of SEI can be described using simplified electrochemical models. We can assume that SEI grows as a function of the current during charging, the applied voltage, and temperature. One common approach is to model SEI formation rate as an exponential process driven by the current:
+
+#### Governing Equations:
+1. **SEI Growth Rate**:
+   \[
+   \frac{dSEI}{dt} = k_{SEI} \cdot I(t) \cdot f(T)
+   \]
+   - \( SEI(t) \): Thickness of SEI layer at time \( t \)
+   - \( k_{SEI} \): SEI growth rate constant
+   - \( I(t) \): Current at time \( t \)
+   - \( f(T) \): Temperature-dependent function
+
+   The temperature function can follow the Arrhenius equation:
+   \[
+   f(T) = \exp\left(\frac{-E_{a}}{R \cdot T}\right)
+   \]
+   - \( E_{a} \): Activation energy for SEI formation
+   - \( R \): Universal gas constant
+   - \( T \): Temperature
+
+2. **Voltage Loss due to SEI Formation**:
+   The SEI layer increases the internal resistance, which affects the terminal voltage of the cell:
+   \[
+   V(t) = V_{OCV} - I(t) \cdot R_{SEI}(t)
+   \]
+   - \( V_{OCV} \): Open-circuit voltage
+   - \( R_{SEI}(t) \): Resistance due to SEI formation at time \( t \)
+
+### 2. **MATLAB Implementation of SEI Formation**
+
+```matlab
+% Constants
+R_g = 8.314;         % Universal gas constant (J/mol-K)
+E_a = 50e3;          % Activation energy (J/mol) for SEI formation
+k_SEI = 1e-7;        % SEI growth rate constant
+T = 298;             % Temperature (K)
+I_0 = 1;             % Initial current (A), can vary depending on the cycle
+time = 0:0.1:3600;   % Simulation time (seconds)
+
+% Initialize SEI and resistance
+SEI_thickness = zeros(size(time));  % SEI layer thickness over time
+R_SEI = zeros(size(time));          % SEI resistance over time
+
+% Pre-calculate the temperature function (Arrhenius factor)
+f_T = exp(-E_a / (R_g * T));  
+
+% Simulate the SEI growth over time
+for i = 2:length(time)
+    % Assuming constant current for this example
+    I_t = I_0;   % Use a dynamic current profile here if necessary
+
+    % SEI growth equation
+    dSEI_dt = k_SEI * I_t * f_T;
+    
+    % Update SEI thickness
+    SEI_thickness(i) = SEI_thickness(i-1) + dSEI_dt * (time(i) - time(i-1));
+
+    % SEI resistance increases with the SEI thickness
+    R_SEI(i) = R_SEI(i-1) + dSEI_dt * 1e-3;  % Arbitrary scaling factor for resistance growth
+end
+
+% Simulate Voltage Drop due to SEI Formation
+V_OCV = 3.6;  % Open circuit voltage (V), this should be dynamic in a real model
+V = V_OCV - I_0 * R_SEI;
+
+% Plot results
+figure;
+subplot(3,1,1);
+plot(time, SEI_thickness, 'LineWidth', 2);
+title('SEI Thickness Over Time');
+xlabel('Time (s)');
+ylabel('SEI Thickness (m)');
+
+subplot(3,1,2);
+plot(time, R_SEI, 'LineWidth', 2);
+title('SEI Resistance Over Time');
+xlabel('Time (s)');
+ylabel('SEI Resistance (Ohms)');
+
+subplot(3,1,3);
+plot(time, V, 'LineWidth', 2);
+title('Voltage Over Time with SEI Formation');
+xlabel('Time (s)');
+ylabel('Voltage (V)');
+```
+
+### 3. **Explanation of Code**:
+- **SEI Growth**: The SEI thickness is calculated based on the current and a temperature-dependent rate constant. The thickness increases over time as the battery charges.
+- **SEI Resistance**: As SEI grows, it increases the internal resistance of the cell. This is reflected in the change in the terminal voltage of the battery.
+- **Voltage Simulation**: The terminal voltage is reduced by the internal resistance created by the SEI formation, which is subtracted from the open-circuit voltage.
+
+### 4. **Simulink Implementation**
+
+To implement this in Simulink:
+1. **SEI Growth Subsystem**:
+   - Use a **Mathematical Function Block** to compute SEI growth based on the current and temperature.
+   - Integrate the output to obtain the SEI thickness over time.
+   
+2. **SEI Resistance Subsystem**:
+   - Compute the increase in resistance using a **Gain Block** and a **Sum Block**.
+   
+3. **Voltage Subsystem**:
+   - Use the open-circuit voltage as an input and subtract the voltage drop due to the SEI resistance using a **Sum Block**.
+
+4. **Dynamic Inputs**:
+   - The current profile \( I(t) \) should come from a **Constant Current-Constant Voltage (CC-CV) Charging Profile** block in Simulink.
+   - The temperature input \( T(t) \) can be modeled as a constant or as a dynamic variable depending on the heat generation in the battery.
+
+### 5. **Advanced SEI Models**:
+In more complex models, SEI formation can be described with a diffusion-controlled growth model, where the rate of SEI formation is proportional to the square root of time:
+\[
+SEI(t) \propto \sqrt{t}
+\]
+For this, you could modify the model to include time-dependent diffusion factors.
+
+### 6. **Further Development**
+To extend this basic SEI formation model, you can:
+- Add **temperature dynamics** (using thermal blocks in Simulink) to simulate how heating affects SEI formation.
+- Incorporate **capacity fade** due to SEI formation, which leads to a loss of lithium ions.
+- Implement a **dynamic current profile** that reflects a real-world charging/discharging scenario.
+
+Would you like further guidance on integrating this model into a Simulink framework or adding additional electrochemical phenomena to the model?

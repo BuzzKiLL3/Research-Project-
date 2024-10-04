@@ -1,0 +1,3 @@
+tempTeste = 293;
+Rtemp = tempTeste; Ctemp1 = tempTeste; Ctemp2 = tempTeste; Ctemp3 = tempTeste; Ctemp4 = tempTeste; Ctemp5 = tempTeste; Ctemp6 = tempTeste; [cSoc1, cSoc2] = correctParallelSOCs(1,0); [cSoc3, cSoc4] = correctParallelSOCs(1,0); [cSoc5, cSoc6] = correctParallelSOCs(1,0); iValueC = 4.9*3; iValueD = -4.9*3; minV = 10;
+Ts = 1;
